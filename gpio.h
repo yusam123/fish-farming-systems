@@ -16,7 +16,7 @@
 #include "task.h"
 #include "message_buffer.h"
 /* For usleep() */
-#include <unistd.h>
+#include <unistd.h>                    //問該怎麼跳出回圈
 #include <stddef.h>
 #include "status_control.h"
 
