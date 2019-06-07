@@ -259,16 +259,22 @@ static void prvPublishNextMessage( BaseType_t xMessageNumber )
      * been created. */
     configASSERT( xMQTTHandle != NULL );
 
+
     /* Create the message that will be published, which is of the form "Hello World n"
      * where n is a monotonically increasing number. Note that snprintf appends
      * terminating null character to the cDataBuffer. */                               ////////////修改發佈mqtt訊息在這邊
-    //configPRINTF( ( "here1\r\n" ) );
-    float adc_pin1 = adcread(1);                                           ////////////////////////將adc的讀數讀入
-    //configPRINTF( ( "here2\r\n" ) );
-//  ( void ) snprintf( cDataBuffer, echoMAX_DATA_LENGTH,"TEMP ADC %f V", ( float ) adcValue1 );
-    ( void ) snprintf( cDataBuffer, echoMAX_DATA_LENGTH,"TEMP ADC %f V",adc_pin1);
-
-
+    if(flag_mode==8){
+        //configPRINTF( ( "here1\r\n" ) );
+        float adc_pin1 = adcread(1);                                           ////////////////////////將adc的讀數讀入
+        //configPRINTF( ( "here2\r\n" ) );
+    //  ( void ) snprintf( cDataBuffer, echoMAX_DATA_LENGTH,"TEMP ADC %f V", ( float ) adcValue1 );
+        ( void ) snprintf( cDataBuffer, echoMAX_DATA_LENGTH,"TEMP ADC %f V",adc_pin1);
+    }
+    for(int i=0;i<8;i++){
+    if(flag_mode==i){
+        ( void ) snprintf( cDataBuffer, echoMAX_DATA_LENGTH,"o%f",flag_mode);
+    }
+    }
     /* Setup the publish parameters. */
     memset( &( xPublishParameters ), 0x00, sizeof( xPublishParameters ) );
     xPublishParameters.pucTopic = echoTOPIC_NAME;
@@ -522,6 +528,15 @@ static void prvMQTTConnectAndPublishTask( void * pvParameters )
             //buttom();
             configPRINTF( ( "here3\r\n" ) );
             if(flag==0) break;
+            int count=0;
+            for(int i=0;i<8;i++){
+                if(gpio_flag[i]==1){
+                   flag_mode = i;
+                   prvPublishNextMessage( xX );
+                   count++;
+                    }
+                }
+            flag_mode=8;
             prvPublishNextMessage( xX );
             configPRINTF( ( "here4\r\n" ) );
            /* Five seconds delay between publishes. */

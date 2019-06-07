@@ -16,7 +16,7 @@
 #include "task.h"
 #include "message_buffer.h"
 /* For usleep() */
-#include <unistd.h>
+#include <unistd.h>                    //問該怎麼跳出回圈
 #include <stddef.h>
 #include "status_control.h"
 
@@ -37,7 +37,7 @@ void gpiosetup(void){
 void gpioButtonFxn0(uint_least8_t index)
 {
     /* Clear the GPIO interrupt and toggle an LED */
-    GPIO_toggle(Board_GPIO_P5);
+    toggle(0);
 }
 /*
  *  ======== gpioButtonFxn1 ========
@@ -47,37 +47,37 @@ void gpioButtonFxn0(uint_least8_t index)
 void gpioButtonFxn1(uint_least8_t index)
 {
     /* Clear the GPIO interrupt and toggle an LED */
-    GPIO_toggle(Board_GPIO_P50);
+    toggle(1);
 }
 void gpioButtonFxn2(uint_least8_t index)
 {
     /* Clear the GPIO interrupt and toggle an LED */
-    GPIO_toggle(Board_GPIO_P3);
+    toggle(2);
 }
 void gpioButtonFxn3(uint_least8_t index)
 {
     /* Clear the GPIO interrupt and toggle an LED */
-    GPIO_toggle(Board_GPIO_P61);
+    toggle(3);
 }
 void gpioButtonFxn4(uint_least8_t index)
 {
     /* Clear the GPIO interrupt and toggle an LED */
-    GPIO_toggle(Board_GPIO_P18);
+    toggle(4);
 }
 void gpioButtonFxn5(uint_least8_t index)
 {
     /* Clear the GPIO interrupt and toggle an LED */
-    GPIO_toggle(Board_GPIO_P62);
+    toggle(5);
 }
 void gpioButtonFxn6(uint_least8_t index)
 {
     /* Clear the GPIO interrupt and toggle an LED */
-    GPIO_toggle(Board_GPIO_P63);
+    toggle(6);
 }
 void gpioButtonFxn7(uint_least8_t index)
 {
     /* Clear the GPIO interrupt and toggle an LED */
-    GPIO_toggle(Board_GPIO_P53);
+    toggle(7);
 }
 /*
  *  ======== mainThread ========
@@ -155,4 +155,10 @@ void buttom(void)
 //   // return (NULL);
 }
 
+void toggle (int a){
+    if(flag_gpio[a]==0)
+        flag_gpio[a]=1;
+    else
+        flag_gpio[a]=0;
+}
 #endif /* APPLICATION_CODE_COMMON_DEMOS_INCLUDE_GPIO_H_ */
